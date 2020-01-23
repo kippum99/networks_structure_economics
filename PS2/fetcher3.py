@@ -56,14 +56,15 @@ def fetch_html_page(url):
     real_url = url
     try:
         with urllib.request.urlopen(url, timeout=10) as usock:
-            real_url = usock.url   # real_url will be changed if there is a redirection 
+            real_url = usock.url   # real_url will be changed if there is a redirection
             if "text/html" in usock.info()['content-type']:
                 content=usock.read().decode('utf-8')    # only fetch it if it is html (not mp3/avi/...)
     # Terminate on CTRL+C sequences, and pass URLError up the stack.
     except KeyboardInterrupt:
         raise
     except:
-        pass
+        print("Unexpected error:", sys.exc_info()[0])
+        raise
     return (real_url, content)
 
 # Fetch the hyperlinks by first fetching the content then using our HTMLParser to
