@@ -1,8 +1,8 @@
 import os
 
+test_file = '../local_test_data/GNPn100p05.txt'
 # test_file = '../local_test_data/EmailEnron.txt'
-# test_file = '../local_test_data/GNPn100p05.txt'
-test_file = '../local_test_data/Gnutella.txt'
+# test_file = '../local_test_data/Gnutella.txt'
 
 os.system('python2 pagerank_map.py < ' + test_file + ' | sort | \
             python2 pagerank_reduce.py | python2 process_map.py | sort | \

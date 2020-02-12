@@ -1,16 +1,8 @@
 #!/usr/bin/env python
 
 import sys
+from heapq import nlargest
 
-# lines = []
-#
-# for line in sys.stdin:
-#     lines.append(line)
-#
-# for line in lines[:20]:
-#     node_id = int(line.split('\t')[0][len('NodeId:'):])
-#
-#     sys.stdout.write('FinalRank:1.0\t' + str(node_id) + '\n')
 
 def emit(key, value):
     sys.stdout.write(str(key) + '\t' + str(value) + '\n')
@@ -46,7 +38,9 @@ for line in sys.stdin:
         ranks.append((rank, node_id))
 
 if last_iter:
-    top_ranks = sorted(ranks, reverse=True)[:20]
+    top_ranks = nlargest(20, ranks)
+    top_ranks.sort(reverse=True)
+    # top_ranks = sorted(ranks, reverse=True)[:20]
 
     for rank, node_id in top_ranks:
         emit('FinalRank:' + rank, node_id)
