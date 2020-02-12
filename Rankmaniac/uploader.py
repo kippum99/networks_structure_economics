@@ -15,9 +15,12 @@ import sys, os
 import ConfigParser
 from time import sleep
 import base64
+import ssl
 
 from boto.exception import EmrResponseError
 from rankmaniac import Rankmaniac
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 unbuff_stdout = os.fdopen(sys.stdout.fileno(), 'w', 0) # unbuffered
 
@@ -118,12 +121,12 @@ def do_main(team_id, access_key, secret_key,
 	print('Terminated')
 
 if __name__ == '__main__':
-	
+
 	team_id        = sys.argv[1] # 'YOUR-TEAM-ID'
 	decoding_key   = sys.argv[2] # DO NOT HARD-CODE!
 	access_enc_key = sys.argv[3] # DO NOT HARD-CODE!
 	secret_enc_key = sys.argv[4] # DO NOT HARD-CODE!
-	
+
 	access_key = decode(decoding_key, access_enc_key)
 	secret_key = decode(decoding_key, secret_enc_key)
 

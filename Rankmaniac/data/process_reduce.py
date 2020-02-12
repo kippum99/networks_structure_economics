@@ -17,6 +17,13 @@ def emit(key, value):
 
 
 first_iter = True
+last_iter = False
+
+# Copy of stdin
+lst_outputs = []
+
+# List of tuples (rank, node_id)
+ranks = []
 
 for line in sys.stdin:
     if 'Iter:' in line:
@@ -24,12 +31,28 @@ for line in sys.stdin:
         iter_num = int(line.split('\t')[1]) + 1
         if iter_num == 50:
             # Only print top 20 (should we do it in process_map?)
-            pass
-            break
+            last_iter = True
         else:
-            sys.stdout.write('Iter:', iter_num + 1)
+            emit('Iter:', iter_num)
     else:
-        sys.stdout.write(line)
+        # For iterations < 50
+        lst_outputs.append(line)
 
-if first_iter:
-    emit('Iter:', 1)
+        # For iteration 50
+        node_id, info = line.strip('\n').split('\t')
+        node_id = node_id[len('NodeId:'):]
+        info = info.split(',')
+        rank = info[0]
+        ranks.append((rank, node_id))
+
+if last_iter:
+    top_ranks = sorted(ranks, reverse=True)[:20]
+
+    for rank, node_id in top_ranks:
+        emit('FinalRank:' + rank, node_id)
+else:
+    if first_iter:
+        emit('Iter:', 1)
+
+    for output in lst_outputs:
+        sys.stdout.write(output)

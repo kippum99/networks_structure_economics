@@ -2,11 +2,15 @@
 
 import sys
 
+# Damping constant
+alpha = 0.85
+
 def emit(key, value):
     sys.stdout.write(str(key) + '\t' + str(value) + '\n')
 
 
-# Dictionary mapping node_id to [rank, neighbors] (in string format)
+# Dictionary mapping node_id to [rank, info_string] where info_string is
+# a string format of prev rank + neighbors
 node_map = {}
 
 for line in sys.stdin:
@@ -18,13 +22,14 @@ for line in sys.stdin:
     node_id, info = line.strip('\n').split('\t')
 
     if node_id not in node_map:
-        node_map[node_id] = [0, None]
+        node_map[node_id] = [0, '']
 
-    if info[0] == 'n':
+    if info[0] == 'i':
         node_map[node_id][1] = info[1:]
     else:
         node_map[node_id][0] += float(info)
 
 for node_id in node_map:
-    rank, neighbors = node_map[node_id]
-    emit('NodeId:' + node_id, str(rank) + ',,' + neighbors)
+    rank, info = node_map[node_id]
+    rank = (1 - alpha) + alpha * rank
+    emit('NodeId:' + node_id, str(rank) + ',' + info)
