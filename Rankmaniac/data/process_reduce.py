@@ -44,15 +44,16 @@ for line in sys.stdin:
         prev_ranks[node_id] = prev_rank
 
 # Check convergence (relative ordering of top 20)
-top_ranks = nlargest(20, ranks)
-top_ranks.sort(reverse=True)
-
 converged = False
-prev_rank_compare = sys.maxsize
-node_id_compare = -1
 
 if not first_iter:
+    top_ranks = nlargest(20, ranks)
+    top_ranks.sort(reverse=True)
+
+    prev_rank_compare = sys.maxsize
+    node_id_compare = -1
     converged = True
+
     for _, node_id in top_ranks:
         prev_rank = float(prev_ranks[node_id])
         if prev_rank > prev_rank_compare:
