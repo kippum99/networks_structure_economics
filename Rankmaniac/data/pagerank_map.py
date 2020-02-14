@@ -8,13 +8,8 @@ def emit(key, value):
 
 
 for line in sys.stdin:
-    # Just repeat line if iter number
-    if 'Iter:' in line:
-        sys.stdout.write(line)
-        continue
-
     node_id, info = line.strip('\n').split('\t')
-    node_id = node_id[len('NodeId:'):]
+    node_id = node_id[7:]   # 7 is len('NodeId:')
     info = info.split(',')
     rank = info[0]
     neighbors = info[2:]

@@ -14,11 +14,6 @@ def emit(key, value):
 node_map = {}
 
 for line in sys.stdin:
-    # Just repeat line if iter number
-    if 'Iter:' in line:
-        sys.stdout.write(line)
-        continue
-
     node_id, info = line.strip('\n').split('\t')
 
     if node_id not in node_map:
