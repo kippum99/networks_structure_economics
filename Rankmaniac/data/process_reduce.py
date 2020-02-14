@@ -47,7 +47,7 @@ for line in sys.stdin:
 converged = False
 
 if not first_iter:
-    top_ranks = nlargest(25, ranks)
+    top_ranks = nlargest(20, ranks)
     top_ranks.sort(reverse=True)
 
     # Top 25 previous ranks
@@ -73,7 +73,7 @@ if not first_iter:
         for i, (_, node_id) in enumerate(top_prev_ranks):
             prev_ordering[node_id] = i
 
-        # Compute squared difference in ordering
+        # Compute squared difference in ordering for top 20 of current ranks
         sum_squared_diff = 0
 
         for i, (_, node_id) in enumerate(top_ranks):
