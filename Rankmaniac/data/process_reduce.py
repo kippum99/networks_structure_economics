@@ -9,14 +9,10 @@ def emit(key, value):
     sys.stdout.write(str(key) + '\t' + str(value) + '\n')
 
 
-# EPSILON = 0.007
-
-
 first_iter = True
 last_iter = False
 num_nodes = 0
 iter_num = 0
-# squared_difference = 0
 
 # Copy of stdin
 lst_outputs = []
@@ -46,7 +42,6 @@ for line in sys.stdin:
 
         num_nodes += 1
         prev_ranks[node_id] = prev_rank
-        # squared_difference += (float(rank) - float(prev_rank)) ** 2
 
 # Check convergence (relative ordering of top 20)
 top_ranks = nlargest(20, ranks)
@@ -56,24 +51,15 @@ converged = False
 prev_rank_compare = sys.maxsize
 node_id_compare = -1
 
-# # Debugging
-# f = open("debug/log" + str(iter_num) + ".txt", "w")
-
 if not first_iter:
     converged = True
     for _, node_id in top_ranks:
         prev_rank = float(prev_ranks[node_id])
         if prev_rank > prev_rank_compare:
-            # f.write(prev_rank + ' for node ' + node_id + ' > ' + prev_rank_compare + ' for node ' + node_id_compare + '\n')
             converged = False
             break
         prev_rank_compare = prev_rank
         node_id_compare = node_id
-
-
-# for rank, node_id in top_ranks:
-#     f.write(str(rank) + ' ' + str(node_id) + '\n')
-# f.close()
 
 if last_iter or converged:
     for rank, node_id in top_ranks:
