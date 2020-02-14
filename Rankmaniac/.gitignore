@@ -1,4 +1,5 @@
 .DS_Store
 data/outputs
+data/debug
 data/output.txt
 results/
